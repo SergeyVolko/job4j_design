@@ -13,13 +13,8 @@ public class FlatMap<T> implements Iterator<T> {
 
     @Override
     public boolean hasNext() {
-        if (this.cursor.equals(Collections.emptyIterator())) {
-            this.cursor = StreamSupport.stream(
-                    Spliterators.spliteratorUnknownSize(data, Spliterator.ORDERED),
-                    false
-            ).flatMap(iterator -> StreamSupport.stream(
-                    Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED),
-                    false)).iterator();
+        while (data.hasNext() && !cursor.hasNext()) {
+            cursor = data.next();
         }
         return cursor.hasNext();
     }

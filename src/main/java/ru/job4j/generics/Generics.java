@@ -14,19 +14,21 @@ public class Generics {
         second.add(new Predator());
         third.add(new Tiger());
 
-        //gen.printObject(first);
-        //gen.printObject(second);
-        //gen.printObject(third);
+        /**
+         * gen.printObject(first);
+         * gen.printObject(second);
+         * gen.printObject(third);
+         *
+         * gen.printBoundedWildCard(first);
+         * gen.printBoundedWildCard(third);
+         *
+         * gen.printLowerBoundedWildCard(first);
+         * gen.printLowerBoundedWildCard(third);
+         */
         System.out.println();
-
-        //gen.printBoundedWildCard(first);
         gen.printBoundedWildCard(second);
-        //gen.printBoundedWildCard(third);
         System.out.println();
-
-        //gen.printLowerBoundedWildCard(first);
         gen.printLowerBoundedWildCard(second);
-        //gen.printLowerBoundedWildCard(third);
     }
 
     public void printObject(List<?> list) {

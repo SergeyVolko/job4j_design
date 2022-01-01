@@ -1,25 +1,26 @@
 package ru.job4j.it;
 
 import java.util.*;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public class FlatMap<T> implements Iterator<T> {
     private final Iterator<Iterator<T>> data;
-    private Iterator<T> cursor;
+    private Iterator<T> cursor = Collections.emptyIterator();
 
     public FlatMap(Iterator<Iterator<T>> data) {
         this.data = data;
-        this.cursor = StreamSupport.stream(
-                Spliterators.spliteratorUnknownSize(data, Spliterator.ORDERED),
-                false
-        ).flatMap(iterator -> StreamSupport.stream(
-                Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED),
-                false)).iterator();
     }
 
     @Override
     public boolean hasNext() {
+        if (this.cursor.equals(Collections.emptyIterator())) {
+            this.cursor = StreamSupport.stream(
+                    Spliterators.spliteratorUnknownSize(data, Spliterator.ORDERED),
+                    false
+            ).flatMap(iterator -> StreamSupport.stream(
+                    Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED),
+                    false)).iterator();
+        }
         return cursor.hasNext();
     }
 

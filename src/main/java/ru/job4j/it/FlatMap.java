@@ -1,7 +1,6 @@
 package ru.job4j.it;
 
 import java.util.*;
-import java.util.stream.StreamSupport;
 
 public class FlatMap<T> implements Iterator<T> {
     private final Iterator<Iterator<T>> data;

@@ -8,7 +8,6 @@ import org.junit.Test;
 import java.util.NoSuchElementException;
 
 public class SimpleQueueTest {
-
     @Test
     public void whenPushPoll() {
         SimpleQueue<Integer> queue = new SimpleQueue<>();
@@ -41,6 +40,7 @@ public class SimpleQueueTest {
         SimpleQueue<Integer> queue = new SimpleQueue<>();
         queue.poll();
     }
+
     @Test
     public void whenPushPushPollAndPush() {
         SimpleQueue<Integer> queue = new SimpleQueue<>();

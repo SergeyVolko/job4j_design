@@ -15,10 +15,21 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
-        return children == user.children && Objects.equals(name, user.name) && Objects.equals(birthday, user.birthday);
+        return children == user.children
+                && Objects.equals(name, user.name)
+                && Objects.equals(birthday, user.birthday);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, children, birthday);
     }
 
     @Override
@@ -39,8 +50,11 @@ public class User {
                 + " heshcode second = " + second.hashCode());
         System.out.println("first == second?:" + first.equals(second));
         Map<User, Object> map = new HashMap<>();
-        map.put(first, new Object());
-        map.put(second, new Object());
+        Object firstObj = new Object();
+        Object secondObj = new Object();
+        System.out.println("firstObj=" + firstObj + " secondObj=" + secondObj);
+        map.put(first, firstObj);
+        map.put(second, secondObj);
         for (Map.Entry<User, Object> entry : map.entrySet()) {
             System.out.println(entry.getKey() + ":" + entry.getValue());
         }

@@ -157,40 +157,4 @@ public class SimpleMapTest  {
         assertTrue(iterator.hasNext());
         assertThat(iterator.next(), is(secondUser));
     }
-
-    @Test(expected = NoSuchElementException.class)
-    public void shouldReturnNoSuchElementException() {
-        SimpleMap<User, Integer> simpleMap = new SimpleMap<>();
-        User user = new User("Ivan", 5,
-                new GregorianCalendar(1986, Calendar.MAY, 14));
-        User secondUser = new User("Vovan", 1,
-                new GregorianCalendar(2001, Calendar.SEPTEMBER, 20));
-        simpleMap.put(user, 10);
-        simpleMap.put(secondUser, 20);
-        Iterator<User> iterator = simpleMap.iterator();
-        assertTrue(iterator.hasNext());
-        assertThat(iterator.next(), is(user));
-        assertTrue(iterator.hasNext());
-        assertThat(iterator.next(), is(secondUser));
-        iterator.next();
-    }
-
-    @Test(expected = ConcurrentModificationException.class)
-    public void shouldReturnConcurrentModificationException() {
-        SimpleMap<User, Integer> simpleMap = new SimpleMap<>();
-        User user = new User("Ivan", 5,
-                new GregorianCalendar(1986, Calendar.MAY, 14));
-        User secondUser = new User("Vovan", 1,
-                new GregorianCalendar(2001, Calendar.SEPTEMBER, 20));
-        simpleMap.put(user, 10);
-        simpleMap.put(secondUser, 20);
-        Iterator<User> iterator = simpleMap.iterator();
-        assertTrue(iterator.hasNext());
-        assertThat(iterator.next(), is(user));
-        simpleMap.put(new User("Igor2", 2,
-                new GregorianCalendar(1993, Calendar.AUGUST, 10)), 30);
-        assertTrue(iterator.hasNext());
-        assertThat(iterator.next(), is(secondUser));
-        iterator.next();
-    }
 }

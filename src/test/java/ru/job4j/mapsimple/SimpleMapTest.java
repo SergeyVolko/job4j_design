@@ -49,7 +49,6 @@ public class SimpleMapTest  {
         simpleMap.put("user6", 60);
         simpleMap.put("user7", 70);
         simpleMap.put("user8", 80);
-        assertThat(simpleMap.capacity(), is(16));
         assertThat(simpleMap.get("user7"), is(70));
         assertTrue(simpleMap.remove("user7"));
         assertThat(simpleMap.get("user7"), is(nullValue()));

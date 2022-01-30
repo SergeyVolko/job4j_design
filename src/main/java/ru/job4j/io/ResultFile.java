@@ -10,7 +10,7 @@ public class ResultFile {
         try (FileOutputStream out = new FileOutputStream("result.txt")) {
             for (int[] row : table) {
                 for (int col : row) {
-                    out.write((Integer.valueOf(col).toString() + " ").getBytes());
+                    out.write((col + " ").getBytes());
                 }
                 out.write(System.lineSeparator().getBytes());
             }

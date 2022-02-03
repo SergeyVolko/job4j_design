@@ -2,7 +2,6 @@ package ru.job4j.io;
 
 import org.junit.Test;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 public class ConfigTest {
@@ -16,18 +15,32 @@ public class ConfigTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void whenPairWithoutOtherComment() {
-        String path = "./data/pair_without_comment.properties";
+    public void whenPairWithoutCommentFail1() {
+        String path = "./data/fail1.properties";
         Config config = new Config(path);
         config.load();
-        assertThat(config.value(" "), is(" Petr Arsentev"));
-        assertThat(config.value("surname "), is(nullValue()));
+    }
+
+    @Test
+    public void whenPairWithoutCommentTest1() {
+        String path = "./data/test1.properties";
+        Config config = new Config(path);
+        config.load();
+        assertThat(config.value("key"), is("val="));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void whenPairWithoutOtherCommentException() {
-        String path = "./data/pair_without_comment_error.properties";
+    public void whenPairWithoutCommentFail2() {
+        String path = "./data/fail2.properties";
         Config config = new Config(path);
         config.load();
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenPairWithoutCommentFail3() {
+        String path = "./data/fail3.properties";
+        Config config = new Config(path);
+        config.load();
+    }
+
 }

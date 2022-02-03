@@ -31,11 +31,7 @@ public class Config {
                 index = str.indexOf('=');
                 left = str.substring(0, index == -1 ? 0 : index);
                 right = str.substring(index + 1);
-                if (index < 1
-                        || index == str.length() - 1
-                        || left.charAt(left.length() - 1) == '.'
-                        || right.charAt(right.length() - 1) == '.'
-                ) {
+                if (index < 1 || index == str.length() - 1) {
                     isException = true;
                     break;
                 }

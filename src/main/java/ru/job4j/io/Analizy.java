@@ -12,10 +12,10 @@ public class Analizy {
             while (in.ready()) {
                 String str = in.readLine();
                 String status = str.substring(0, 3);
-                if (first.equals("") && (status.equals("400") || status.equals("500"))) {
+                if ("".equals(first) && ("400".equals(status) || "500".equals(status))) {
                     first = str.substring(4);
                 }
-                if (!first.equals("") && (status.equals("200") || status.equals("300"))) {
+                if (!"".equals(first) && ("200".equals(status) || "300".equals(status))) {
                     last = str.substring(4);
                     stringJoiner.add(first + ";" + last + ";");
                     first = "";

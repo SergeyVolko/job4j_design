@@ -17,23 +17,34 @@ public class Config {
     }
 
     public void load() {
-        String[] res = new String[2];
+        int index;
+        String left;
+        String right;
+        boolean isException = false;
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
-            read.lines()
-                    .filter(str -> str.replaceAll("\\s+", "").length() != 0
-                            && str.charAt(0) != '#'
-                    )
-                    .forEach(str -> {
-                        int index = str.indexOf('=');
-                        res[0] = str.substring(0, index);
-                        res[1] = str.substring(index + 1);
-                        values.put(res[0].equals("") ? null : res[0], res[1].equals("") ? null : res[1]);
-                    });
+            while (read.ready()) {
+                String str = read.readLine();
+                if (str.replaceAll("\\s+", "").length() == 0
+                || str.charAt(0) == '#') {
+                    continue;
+                }
+                index = str.indexOf('=');
+                left = str.substring(0, index == -1 ? 0 : index);
+                right = str.substring(index + 1);
+                if (index < 1
+                        || index == str.length() - 1
+                        || left.charAt(left.length() - 1) == '.'
+                        || right.charAt(right.length() - 1) == '.'
+                ) {
+                    isException = true;
+                    break;
+                }
+                values.put(left, right);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (res[0].length() > 0 && res[0].charAt(res[0].length() - 1) == '.'
-                || res[1].length() > 0 && res[1].charAt(res[1].length() - 1) == '.') {
+        if (isException) {
             throw new IllegalArgumentException();
         }
     }

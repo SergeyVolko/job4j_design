@@ -15,7 +15,7 @@ public class ConfigTest {
         assertThat(config.value("hibernate.connection.username"), is("postgres"));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void whenPairWithoutOtherComment() {
         String path = "./data/pair_without_comment.properties";
         Config config = new Config(path);

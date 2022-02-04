@@ -1,5 +1,6 @@
 package ru.job4j.io;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,19 +9,22 @@ public class ArgsName {
     private final Map<String, String> values = new HashMap<>();
 
     public String get(String key) {
-        if (values.size() == 0) {
-            throw new IllegalArgumentException("Empty args.");
-        }
         return values.get(key);
     }
 
     private void parse(String[] args) {
+        if (args.length == 0) {
+            throw new IllegalArgumentException("No argument.");
+        }
         String left;
         String right;
         int index;
         for (String str : args) {
             index = str.indexOf('=');
-            if (str.charAt(0) != '-' || index <= 0 || index == str.length() - 1) {
+            if (str.charAt(0) != '-'
+                    || index <= 0
+                    || index == str.length() - 1
+                    || str.charAt(index + 1) == '=') {
                 throw new IllegalArgumentException("Pattern violation.");
             }
             left = str.substring(1, index);

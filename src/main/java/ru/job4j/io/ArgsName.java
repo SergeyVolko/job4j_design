@@ -1,5 +1,6 @@
 package ru.job4j.io;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +22,8 @@ public class ArgsName {
             if (tokens.length != 2
                     || tokens[0].length() == 0
                     || tokens[1].length() == 0) {
-                throw new IllegalArgumentException("Pattern violation.");
+                throw new IllegalArgumentException("Pattern violation."
+                + Arrays.toString(tokens) + ":" + Arrays.toString(args));
             }
             values.put(tokens[0].substring(1), tokens[1]);
         }

@@ -19,7 +19,7 @@ public class ArgsNameTest {
         assertThat(jvm.get("Xmx"), is("512"));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void whenMultipleEqualsSymbol() {
         ArgsName jvm = ArgsName.of(new String[] {"-request=?msg=Exit="});
         assertThat(jvm.get("request"), is("?msg=Exit="));

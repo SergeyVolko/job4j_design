@@ -12,10 +12,10 @@ public class ArgsName {
     }
 
     private void parse(String[] args) {
-        String[] tokens;
         if (args.length == 0) {
-            throw new IllegalArgumentException("No argument");
+            throw new IllegalArgumentException("No argument.");
         }
+        String[] tokens;
         for (String str : args) {
             tokens = str.split("=");
             if (tokens.length != 2

@@ -32,17 +32,14 @@ public class Config {
                 left = str.substring(0, index == -1 ? 0 : index);
                 right = str.substring(index + 1);
                 if (index < 1 || index == str.length() - 1) {
-                    isException = true;
-                    break;
+                    throw new IllegalArgumentException();
                 }
                 values.put(left, right);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        if (isException) {
-            throw new IllegalArgumentException();
-        }
+
     }
 
     public String value(String key) {

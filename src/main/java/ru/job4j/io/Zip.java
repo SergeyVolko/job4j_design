@@ -9,38 +9,40 @@ import java.util.zip.ZipOutputStream;
 
 public class Zip {
 
-    public static void packFiles(List<File> sources, File target) {
-        sources.forEach(f -> packSingleFile(f, target));
-    }
+    private static ArgsName argsName;
+    private static File file;
 
-    public static void packSingleFile(File source, File target) {
+    public static void packFiles(List<File> sources, File target) {
         try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
-            zip.putNextEntry(new ZipEntry(source.getPath()));
-            try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
-                zip.write(out.readAllBytes());
+            for (File source : sources) {
+                zip.putNextEntry(new ZipEntry(source.getPath()));
+                try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
+                    zip.write(out.readAllBytes());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        ArgsName argsName = ArgsName.of(args);
-        String directory  = argsName.get("d");
-        String output  = argsName.get("o");
-        if (directory == null || output == null) {
+    public static void validateParameters(String[] args) {
+        if (args.length != 3) {
             throw new IllegalArgumentException("Invalid parameters.");
         }
-        File file = new File(directory);
-        File zipFile =  new File(output);
+        argsName = ArgsName.of(args);
+        file = new File(argsName.get("d"));
         if (!file.exists()) {
             throw new IllegalArgumentException(String.format("Not exist %s", file.getAbsoluteFile()));
         }
         if (!file.isDirectory()) {
             throw new IllegalArgumentException(String.format("Not directory %s", file.getAbsoluteFile()));
         }
-        String exclude = argsName.get("e");
+    }
 
+    public static void main(String[] args) throws IOException {
+        validateParameters(args);
+        File zipFile =  new File(argsName.get("o"));
+        String exclude = argsName.get("e");
         List<Path> pathList =
                 Search.search(file.toPath(), p -> !p.toFile().getName().endsWith(exclude == null ? "" : exclude));
         List<File> source = pathList.stream()

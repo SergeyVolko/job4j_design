@@ -93,6 +93,7 @@
         <version>3.0.0</version>
         <executions>
           <execution>
+            <id>first</id>
             <phase>package</phase>
             <goals>
               <goal>shade</goal>
@@ -107,6 +108,7 @@
             </configuration>
           </execution>
           <execution>
+            <id>second</id>
             <phase>package</phase>
             <goals>
               <goal>shade</goal>

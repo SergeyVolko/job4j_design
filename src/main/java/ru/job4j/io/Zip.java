@@ -9,10 +9,10 @@ import java.util.zip.ZipOutputStream;
 
 public class Zip {
 
-    private static ArgsName argsName;
-    private static File file;
+    private ArgsName argsName;
+    private File file;
 
-    public static void packFiles(List<File> sources, File target) {
+    public void packFiles(List<File> sources, File target) {
         try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
             for (File source : sources) {
                 zip.putNextEntry(new ZipEntry(source.getPath()));
@@ -25,7 +25,7 @@ public class Zip {
         }
     }
 
-    public static void validateParameters(String[] args) {
+    public void validateParameters(String[] args) {
         if (args.length != 3) {
             throw new IllegalArgumentException("Invalid parameters.");
         }
@@ -39,15 +39,24 @@ public class Zip {
         }
     }
 
+    public ArgsName getArgsName() {
+        return argsName;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
     public static void main(String[] args) throws IOException {
-        validateParameters(args);
-        File zipFile =  new File(argsName.get("o"));
-        String exclude = argsName.get("e");
+        Zip zip = new Zip();
+        zip.validateParameters(args);
+        File zipFile =  new File(zip.argsName.get("o"));
+        String exclude = zip.getArgsName().get("e");
         List<Path> pathList =
-                Search.search(file.toPath(), p -> !p.toFile().getName().endsWith(exclude == null ? "" : exclude));
+                Search.search(zip.getFile().toPath(), p -> !p.toFile().getName().endsWith(exclude == null ? "" : exclude));
         List<File> source = pathList.stream()
                 .map(Path::toFile)
                 .collect(Collectors.toList());
-        packFiles(source, zipFile);
+        zip.packFiles(source, zipFile);
     }
 }

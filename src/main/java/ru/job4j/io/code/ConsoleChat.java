@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 
 public class ConsoleChat {
 
-    private final String path;
-    private final String botAnswers;
     private static final String OUT = "закончить";
     private static final String STOP = "стоп";
     private static final String CONTINUE = "продолжить";
+    private final String path;
+    private final String botAnswers;
 
     public ConsoleChat(String path, String botAnswers) {
         this.path = path;
@@ -24,6 +24,7 @@ public class ConsoleChat {
             List<String> phrases = readPhrases();
             List<String> log = new ArrayList<>();
             String fraze = br.readLine();
+            String botAnswer;
             boolean isStop = STOP.equals(fraze);
             while (!OUT.equals(fraze)) {
                 log.add(fraze);
@@ -33,7 +34,9 @@ public class ConsoleChat {
                     isStop = false;
                 }
                 if (!isStop) {
-                    log.add(phrases.get((int) (Math.random() * phrases.size())));
+                    botAnswer = phrases.get((int) (Math.random() * phrases.size()));
+                    System.out.println(botAnswer);
+                    log.add(botAnswer);
                 }
                 fraze = br.readLine();
             }

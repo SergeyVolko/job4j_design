@@ -30,6 +30,13 @@ public class Zip {
             throw new IllegalArgumentException("Invalid parameters.");
         }
         argsName = ArgsName.of(args);
+        String par = argsName.get("e");
+        if (par == null) {
+            throw new IllegalArgumentException("There is no parameter e");
+        }
+        if (!par.startsWith(".")) {
+            throw new IllegalArgumentException("Invalid parameter e");
+        }
         file = new File(argsName.get("d"));
         if (!file.exists()) {
             throw new IllegalArgumentException(String.format("Not exist %s", file.getAbsoluteFile()));
@@ -50,10 +57,10 @@ public class Zip {
     public static void main(String[] args) throws IOException {
         Zip zip = new Zip();
         zip.validateParameters(args);
-        File zipFile =  new File(zip.argsName.get("o"));
+        File zipFile =  new File(zip.getArgsName().get("o"));
         String exclude = zip.getArgsName().get("e");
         List<Path> pathList =
-                Search.search(zip.getFile().toPath(), p -> !p.toFile().getName().endsWith(exclude == null ? "" : exclude));
+                Search.search(zip.getFile().toPath(), p -> !p.toFile().getName().endsWith(exclude));
         List<File> source = pathList.stream()
                 .map(Path::toFile)
                 .collect(Collectors.toList());

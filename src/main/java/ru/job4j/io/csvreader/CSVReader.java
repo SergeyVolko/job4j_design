@@ -15,7 +15,7 @@ public class CSVReader {
         validate(argsName);
         String out = argsName.get("out");
         String delimiter = argsName.get("delimiter");
-        try (Scanner scanner = new Scanner(source).useDelimiter("\r\n")) {
+        try (Scanner scanner = new Scanner(source).useDelimiter(System.lineSeparator())) {
             Set<String> filters = Arrays.stream(argsName.get("filter").split(","))
                     .collect(Collectors.toSet());
             if (out.equals("stdout")) {
@@ -39,7 +39,7 @@ public class CSVReader {
             pos = 0;
             for (int i = 0; i < strings.length; i++) {
                 if (positions.contains(i)) {
-                    el = pos == positions.size() - 1 ? strings[i].concat("\r\n") : strings[i].concat(";");
+                    el = pos == positions.size() - 1 ? strings[i].concat(System.lineSeparator()) : strings[i].concat(";");
                     consumer.accept(el);
                     pos++;
                 }
@@ -58,7 +58,7 @@ public class CSVReader {
             for (String s : strings) {
                 if (filters.contains(s)) {
                     positions.add(pos);
-                    prStr = count == size - 1 ? s.concat("\r\n") : s.concat(delimiter);
+                    prStr = count == size - 1 ? s.concat(System.lineSeparator()) : s.concat(delimiter);
                     consumer.accept(prStr);
                     count++;
                 }

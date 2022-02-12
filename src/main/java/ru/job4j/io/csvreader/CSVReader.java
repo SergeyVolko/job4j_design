@@ -18,7 +18,7 @@ public class CSVReader {
         try (Scanner scanner = new Scanner(source).useDelimiter(System.lineSeparator())) {
             Set<String> filters = Arrays.stream(argsName.get("filter").split(","))
                     .collect(Collectors.toSet());
-            if (out.equals("stdout")) {
+            if ("stdout".equals(out)) {
                 show(scanner, filters, System.out::print, delimiter);
             } else {
                 try (PrintWriter printWriter = new PrintWriter(new FileWriter(target.getAbsolutePath(), true))) {
@@ -39,7 +39,8 @@ public class CSVReader {
             pos = 0;
             for (int i = 0; i < strings.length; i++) {
                 if (positions.contains(i)) {
-                    el = pos == positions.size() - 1 ? strings[i].concat(System.lineSeparator()) : strings[i].concat(";");
+                    el = pos == positions.size() - 1 ? strings[i].concat(System.lineSeparator())
+                            : strings[i].concat(";");
                     consumer.accept(el);
                     pos++;
                 }

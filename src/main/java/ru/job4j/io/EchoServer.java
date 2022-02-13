@@ -5,8 +5,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class EchoServer {
-    private static boolean isClose(String str) {
-        return "Bye".equals(str.split(" ")[1].split("=")[1]);
+    private static String msgAnswer(String str) {
+        String[] res = str.split(" ")[1].split("=");
+        return res.length < 2 ? "" : res[1];
     }
     public static void main(String[] args) throws IOException {
         try (ServerSocket server = new ServerSocket(9000)) {
@@ -17,7 +18,7 @@ public class EchoServer {
                              new InputStreamReader(socket.getInputStream()))) {
                     out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                     String str = in.readLine();
-                    boolean isClose = isClose(str);
+                    boolean isClose = "Bye".equals(msgAnswer(str));
                     for ( ; str != null && !str.isEmpty(); str = in.readLine()) {
                         System.out.println(str);
                     }

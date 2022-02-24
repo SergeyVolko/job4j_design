@@ -4,6 +4,10 @@ public class Certificate {
     String owner;
     int id;
 
+    public Certificate() {
+
+    }
+
     public Certificate(String owner, int id) {
         this.owner = owner;
         this.id = id;

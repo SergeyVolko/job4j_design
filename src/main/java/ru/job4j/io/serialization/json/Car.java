@@ -12,6 +12,10 @@ public class Car {
     double power;
     String[] owners;
 
+    public Car() {
+
+    }
+
     public Car(Certificate certificate, String stamp, boolean limitations, double power, String[] owners) {
         this.certificate = certificate;
         this.stamp = stamp;

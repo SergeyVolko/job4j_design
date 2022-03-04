@@ -10,10 +10,12 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
 import java.io.StringWriter;
 
-@XmlRootElement(name = "person")
+@XmlRootElement(name = "car")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Car {
+    @XmlElement
     Certificate certificate;
+
     @XmlAttribute
     String stamp;
 

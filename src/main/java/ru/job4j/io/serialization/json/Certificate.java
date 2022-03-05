@@ -13,6 +13,15 @@ public class Certificate {
 
     @XmlAttribute
     int id;
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     public Certificate() {
 
     }

@@ -5,15 +5,28 @@ import com.google.gson.GsonBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@XmlRootElement(name = "car")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Car {
+    @XmlElement
     Certificate certificate;
+
+    @XmlElement
     String stamp;
+
+    @XmlElement
     boolean limitations;
+
+    @XmlElement
     double power;
+
+    @XmlElementWrapper(name = "owners")
+    @XmlElement(name = "owner")
     String[] owners;
 
     public Certificate getCertificate() {

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -54,6 +55,7 @@ public class SearchCriteriaTest  {
        assertThat(rsl.toString(), is(expected.toString()));
     }
 
+    @Ignore
     @Test
     public void whenWriteFileThenNameResult() throws IOException {
         String[] args = new String[4];

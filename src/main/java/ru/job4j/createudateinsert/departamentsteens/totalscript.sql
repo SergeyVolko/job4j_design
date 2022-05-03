@@ -29,10 +29,14 @@ where e.departament_id is NULL;
 
 --4. Используя left и right join написать запросы, которые давали бы одинаковый результат 
 --(порядок вывода колонок в эти запросах также должен быть идентичный).
-select * from departments as d left join employees as e on d.id = e.departament_id; 
-select * from employees as e right join departments as d on d.id = e.departament_id;
-select * from employees as e left join departments as d on d.id = e.departament_id; 
-select * from departments as d right join employees as e on d.id = e.departament_id;
+select * from departments as d left join employees as e on d.id = e.departament_id;
+select
+	d.id,
+	d.name,
+	e.id,
+	e.name,
+	e.departament_id
+from employees as e right join departments as d on d.id = e.departament_id;
 
 --5. Создать таблицу teens с атрибутами name, gender и заполнить ее. Используя cross join 
 --составить все возможные разнополые пары

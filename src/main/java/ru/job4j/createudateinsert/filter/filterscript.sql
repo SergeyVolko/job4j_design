@@ -55,9 +55,10 @@ where p.expired_date < current_date;
 
 --4. Написать запрос, который выводит самый дорогой продукт.
 select 
-	p.name as Наименование,
-	p.price as Цена
-from product as p order by price desc limit 1;
+	name as Наименование,
+	max(price) as Цена
+from product as p
+group by p.name;
 
 --5. Написать запрос, который выводит для каждого типа количество продуктов к нему принадлежащих. 
 --В виде имя_типа, количество

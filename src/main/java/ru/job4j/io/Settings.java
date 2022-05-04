@@ -17,4 +17,13 @@ public class Settings {
     public String getValue(String key) {
         return this.prs.getProperty(key);
     }
+
+    public static void main(String[] args) throws Exception {
+        Settings settings = new Settings();
+        ClassLoader loader = Settings.class.getClassLoader();
+        try (InputStream io = loader.getResourceAsStream("log4j.properties")){
+            settings.load(io);
+        }
+        System.out.println(settings.getValue("log4j.rootLogger"));
+    }
 }

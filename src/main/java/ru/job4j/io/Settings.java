@@ -21,7 +21,7 @@ public class Settings {
     public static void main(String[] args) throws Exception {
         Settings settings = new Settings();
         ClassLoader loader = Settings.class.getClassLoader();
-        try (InputStream io = loader.getResourceAsStream("log4j.properties")){
+        try (InputStream io = loader.getResourceAsStream("log4j.properties")) {
             settings.load(io);
         }
         System.out.println(settings.getValue("log4j.rootLogger"));

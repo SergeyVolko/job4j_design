@@ -6,7 +6,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -25,10 +24,20 @@ public class ImportDB {
         try (BufferedReader rd = new BufferedReader(new FileReader(dump))) {
             rd.lines().forEach(str -> {
                 String[] strings = str.split(";");
+                validate(strings);
                 users.add(new User(strings[0], strings[1]));
             });
         }
         return users;
+    }
+
+    public void validate(String[] arg) {
+        if (arg.length != 2) {
+            throw new IllegalArgumentException("Incorrect number of elements.");
+        }
+        if (arg[0].trim().length() == 0 || arg[1].trim().length() == 0) {
+            throw new IllegalArgumentException("There are empty elements.");
+        }
     }
 
     public void save(List<User> users) throws ClassNotFoundException, SQLException {

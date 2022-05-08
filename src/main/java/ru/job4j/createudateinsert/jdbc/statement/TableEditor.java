@@ -1,6 +1,5 @@
 package ru.job4j.createudateinsert.jdbc.statement;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
@@ -110,34 +109,35 @@ public class TableEditor implements AutoCloseable {
     }
 
     public static void main(String[] args) throws Exception {
-        TableEditor tableEditor = new TableEditor(TableEditor.getProperties("app.properties"));
-        tableEditor.initConnection();
-        DatabaseMetaData metaData = tableEditor.connection.getMetaData();
-        System.out.println(metaData.getUserName());
-        System.out.println(metaData.getURL());
+        try (TableEditor tableEditor = new TableEditor(TableEditor.getProperties("app.properties"))) {
+            tableEditor.initConnection();
+            DatabaseMetaData metaData = tableEditor.connection.getMetaData();
+            System.out.println(metaData.getUserName());
+            System.out.println(metaData.getURL());
 
-        String tableName = "my_table";
-        System.out.println("Удадение таблицы.");
-        tableEditor.dropTable(tableName);
+            String tableName = "my_table";
+            System.out.println("Удадение таблицы.");
+            tableEditor.dropTable(tableName);
 
-        System.out.println("Добавление таблицы.");
-        tableEditor.createTable(tableName);
-        System.out.println(TableEditor.getTableScheme(tableEditor.connection, tableName));
+            System.out.println("Добавление таблицы.");
+            tableEditor.createTable(tableName);
+            System.out.println(TableEditor.getTableScheme(tableEditor.connection, tableName));
 
 
-        System.out.println("Добавление колонки.");
-        String columnName = "column_new";
-        String typeColumn = "varchar(255)";
-        tableEditor.addColumn(tableName, columnName, typeColumn);
-        System.out.println(TableEditor.getTableScheme(tableEditor.connection, tableName));
+            System.out.println("Добавление колонки.");
+            String columnName = "column_new";
+            String typeColumn = "varchar(255)";
+            tableEditor.addColumn(tableName, columnName, typeColumn);
+            System.out.println(TableEditor.getTableScheme(tableEditor.connection, tableName));
 
-        System.out.println("Переименование колонки.");
-        String columnNameNew = "new_name_column";
-        tableEditor.renameColumn(tableName, columnName, columnNameNew);
-        System.out.println(TableEditor.getTableScheme(tableEditor.connection, tableName));
+            System.out.println("Переименование колонки.");
+            String columnNameNew = "new_name_column";
+            tableEditor.renameColumn(tableName, columnName, columnNameNew);
+            System.out.println(TableEditor.getTableScheme(tableEditor.connection, tableName));
 
-        System.out.println("Удаление колонки.");
-        tableEditor.dropColumn(tableName, columnNameNew);
-        System.out.println(TableEditor.getTableScheme(tableEditor.connection, tableName));
+            System.out.println("Удаление колонки.");
+            tableEditor.dropColumn(tableName, columnNameNew);
+            System.out.println(TableEditor.getTableScheme(tableEditor.connection, tableName));
+        }
     }
 }

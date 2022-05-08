@@ -1,6 +1,7 @@
 package ru.job4j.createudateinsert.jdbc.statement;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 import java.util.StringJoiner;
@@ -93,6 +94,14 @@ public class TableEditor implements AutoCloseable {
         return buffer.toString();
     }
 
+    private static Properties getProperties(String name) throws Exception {
+        Properties properties = new Properties();
+        try (InputStream in = TableEditor.class.getClassLoader().getResourceAsStream(name)) {
+            properties.load(in);
+        }
+        return properties;
+    }
+
     @Override
     public void close() throws Exception {
         if (connection != null) {
@@ -101,9 +110,7 @@ public class TableEditor implements AutoCloseable {
     }
 
     public static void main(String[] args) throws Exception {
-        Properties properties = new Properties();
-        properties.load(new FileInputStream("app.properties"));
-        TableEditor tableEditor = new TableEditor(properties);
+        TableEditor tableEditor = new TableEditor(TableEditor.getProperties("app.properties"));
         tableEditor.initConnection();
         DatabaseMetaData metaData = tableEditor.connection.getMetaData();
         System.out.println(metaData.getUserName());

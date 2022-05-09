@@ -32,11 +32,8 @@ public class ImportDB {
     }
 
     public void validate(String[] arg) {
-        if (arg.length != 2) {
-            throw new IllegalArgumentException("Incorrect number of elements.");
-        }
-        if (arg[0].trim().length() == 0 || arg[1].trim().length() == 0) {
-            throw new IllegalArgumentException("There are empty elements.");
+        if (arg.length != 2 || arg[0].isBlank() || arg[1].isBlank()) {
+            throw new IllegalArgumentException("Incorrect arguments.");
         }
     }
 

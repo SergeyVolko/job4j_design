@@ -33,8 +33,7 @@ WHERE company_id <> 5;
 SELECT company.name, COUNT(person.name) FROM company
 LEFT JOIN person ON person.company_id = company.id
 GROUP BY company.name
-HAVING COUNT(person.name) = ANY((SELECT COUNT(person.name) AS max_count FROM company
-							  LEFT JOIN person ON person.company_id = company.id
-                              GROUP BY company.name
-                              ORDER BY COUNT(person.name) DESC
-                              LIMIT 1));
+HAVING COUNT(person.name) = ANY(SELECT COUNT(name) FROM person
+							    GROUP BY company_id
+                                ORDER BY COUNT(name) DESC
+                                LIMIT 1);

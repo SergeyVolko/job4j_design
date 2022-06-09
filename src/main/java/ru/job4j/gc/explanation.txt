@@ -1,38 +1,50 @@
-1. Объект User состоит из двух полей
-int age
-String name.
-Заголовок объекта - 8 байт
-Поле int - 4 байта
-Поле String name:
-        Заголовок объекта - 8 байт
-        Поле ссылка byte[] value - 4 байта
-        Поле byte coder - 1 байт
-        Поле int hash - 4 байта
-        Поле boolean hashIsZero - 1 байт
-        Выравнивание - 6 байт
-        Итого: 24 байта
-            Плюс к этому массив byte[] value:
-            Заголовок - 8 байт + 4 байта на длинну массива для (name Alex) = 12 байт
-            Примитивы byte - 4 * 1 = 4 (Массив заполняется 4 байтами)
-            Итого: 16
-Всего String для name Alex: 24 + 16 = 40 байт
-Выравнивание: 4 байта
-ИТОГО память под new User("Alex", i): 56 байт
+ru.job4j.gc.User object internals:
+OFF  SZ               TYPE DESCRIPTION               VALUE
+  0   8                    (object header: mark)     0x0000000000000001 (non-biasable; age: 0)
+  8   4                    (object header: class)    0x00c01200
+ 12   4                int User.age                  20
+ 16   4   java.lang.String User.name                 (object)
+ 20   4                    (object alignment gap)    
+Instance size: 24 bytes
+Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
 
-2 Программа работает следующим образом.
-Перед выполнением программы мы определили -Xmx4m -Xms4m-это первоначальный и максимальный размер кучи
-равные 4 мегабайт.
+java.lang.String object internals:
+OFF  SZ      TYPE DESCRIPTION               VALUE
+  0   8           (object header: mark)     0x0000000000000001 (non-biasable; age: 0)
+  8   4           (object header: class)    0x0000e270
+ 12   4       int String.hash               0
+ 16   1      byte String.coder              0
+ 17   1   boolean String.hashIsZero         false
+ 18   2           (alignment/padding gap)   
+ 20   4    byte[] String.value              [65, 108, 101, 120]
+Instance size: 24 bytes
+Space losses: 2 bytes internal + 0 bytes external = 2 bytes total
 
-В процессе создания объектов new User("Alex", i)
-заполняется область edem. Как только переполняется область edem
-происходит минорная сборка мусора (Minor GC) и вызывается метод finalize(), который покажет
-нам удаленные объекты.
+[B object internals:
+OFF  SZ   TYPE DESCRIPTION               VALUE
+  0   8        (object header: mark)     0x0000000000000001 (non-biasable; age: 0)
+  8   4        (object header: class)    0x00006218
+ 12   4        (array length)            4
+ 12   4        (alignment/padding gap)   
+ 16   4   byte [B.<elements>             N/A
+ 20   4        (object alignment gap)    
+Instance size: 24 bytes
+Space losses: 4 bytes internal + 4 bytes external = 8 bytes total
 
-Объекты создаваемые области eden выживать не будут, т.к. на них нет ссылок,
-сдедовательно области s0 и s1 будут
-оставться пустыми. Тогда можно сделать вывод, что определяющим фактором вызова сборки мусора будет
-переполнение области eden.
+ru.job4j.gc.User@4671e53bd footprint:
+     COUNT       AVG       SUM   DESCRIPTION
+         1        24        24   [B
+         1        24        24   java.lang.String
+         1        24        24   ru.job4j.gc.User
+         3                  72   (total)
 
-Для количества создаваемых объектов равных 20000 сборка мусора не всегда происходит.
-Следовательно, можно сделать предположение, что память выделяемая для области eden при каждом
-запуске программы разная.
+
+Total size: 72
+ru.job4j.gc.Empty object internals:
+OFF  SZ   TYPE DESCRIPTION               VALUE
+  0   8        (object header: mark)     0x0000000000000001 (non-biasable; age: 0)
+  8   4        (object header: class)    0x00c86000
+ 12   4        (object alignment gap)    
+Instance size: 16 bytes
+Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
+

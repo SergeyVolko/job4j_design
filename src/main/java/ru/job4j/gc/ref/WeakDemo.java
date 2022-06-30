@@ -2,17 +2,16 @@ package ru.job4j.gc.ref;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
 
 public class WeakDemo {
 
     public static void main(String[] args) throws InterruptedException {
-        //example1();
-        example2();
-        //example3();
+        example4();
     }
 
     private static void example1() throws InterruptedException {
@@ -61,4 +60,17 @@ public class WeakDemo {
         System.out.println("from queue " + queue.poll());
     }
 
+    private static void example4() throws InterruptedException {
+        Map<WeakReference<String>, List<String>> map = new WeakHashMap<>();
+        String s1 = "first";
+        String s2 = "second";
+        map.put(new WeakReference<String>(s1), List.of("a", "b", "c"));
+        map.put(new WeakReference<>(s2), List.of("d", "e", "f"));
+        System.out.println(map.size());
+        s1 = null;
+        s2 = null;
+        System.gc();
+        TimeUnit.SECONDS.sleep(3);
+        System.out.println(map.size());
+    }
 }

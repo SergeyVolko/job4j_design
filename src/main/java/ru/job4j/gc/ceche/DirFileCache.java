@@ -1,8 +1,8 @@
 package ru.job4j.gc.ceche;
 
 import java.io.*;
-import java.lang.ref.SoftReference;
-import java.util.stream.Collectors;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class DirFileCache extends AbstractCache<String, String> {
 
@@ -14,33 +14,13 @@ public class DirFileCache extends AbstractCache<String, String> {
 
     @Override
     protected String load(String key) {
-        File dir = new File(cachingDir);
-        validate(dir);
-        File[] res = dir.listFiles((d, name) -> key.equals(name));
-        if (res.length == 0) {
-            throw new IllegalArgumentException("Not file in current directory!");
-        }
-        return putFile(key, res[0]);
-    }
-
-    public String putFile(String key, File file) {
         String result = null;
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            result = reader.lines().collect(Collectors.joining("\n"));
-            super.cache.put(key, new SoftReference<>(result));
-        }  catch (IOException e) {
+        try {
+            result = Files.readString(Path.of(cachingDir, key));
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return result;
-    }
-
-    private void validate(File dir) {
-        if (!dir.exists()) {
-            throw new IllegalArgumentException(String.format("Not exist %s", dir.getAbsoluteFile()));
-        }
-        if (!dir.isDirectory()) {
-            throw new IllegalArgumentException(String.format("Not directory %s", dir.getAbsoluteFile()));
-        }
     }
 
     public String getCachingDir() {

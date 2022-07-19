@@ -21,5 +21,6 @@ public class UsageLog4j {
                             + "float - {}, double - {}\r\n"
                             + "boolean - {}, char - {}";
         LOG.debug(pattern, one, two, three, four, five, six, seven, eight);
+        LOG.error(pattern, one, two, three, four, five, six, seven, eight);
     }
 }

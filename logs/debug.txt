@@ -1,0 +1,16 @@
+2022-07-18 15:55:47,560 DEBUG ru.job4j.io.UsageLog4j:main:23 - Primitive variables : 
+byte - 1, short - 2, int - 3,  long - 4
+float - 5.0, double - 6.0
+boolean - true, char - A
+2022-07-19 11:46:06,633 DEBUG ru.job4j.io.UsageLog4j:main:23 - Primitive variables : 
+byte - 1, short - 2, int - 3,  long - 4
+float - 5.0, double - 6.0
+boolean - true, char - A
+2022-07-19 11:47:55,382 DEBUG ru.job4j.io.UsageLog4j:main:23 - Primitive variables : 
+byte - 1, short - 2, int - 3,  long - 4
+float - 5.0, double - 6.0
+boolean - true, char - A
+2022-07-19 11:47:55,421 ERROR ru.job4j.io.UsageLog4j:main:24 - Primitive variables : 
+byte - 1, short - 2, int - 3,  long - 4
+float - 5.0, double - 6.0
+boolean - true, char - A

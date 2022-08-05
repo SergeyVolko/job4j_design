@@ -1,18 +1,16 @@
 package ru.job4j.gc.leak;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class PostStore {
 
-    private static Map<Integer, Post> posts = new HashMap<>();
-
-    public AtomicInteger atomicInteger = new AtomicInteger(1);
+    private Map<Integer, Post> posts = new HashMap<>();
+    private int id = 1;
 
     public Post add(Post post) {
-        Integer id = atomicInteger.getAndIncrement();
         post.setId(id);
         posts.put(id, post);
+        id++;
         return post;
     }
 
@@ -20,7 +18,7 @@ public class PostStore {
         posts.clear();
     }
 
-    public static Collection<Post> getPosts() {
+    public Collection<Post> getPosts() {
         return posts.values();
     }
 }

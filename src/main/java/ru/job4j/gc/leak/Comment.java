@@ -5,7 +5,6 @@ import java.util.Objects;
 public class Comment {
 
     private String text;
-
     private User user;
 
     public Comment(String text, User user) {

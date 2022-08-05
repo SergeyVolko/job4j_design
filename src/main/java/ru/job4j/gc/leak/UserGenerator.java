@@ -7,11 +7,11 @@ import java.util.Random;
 
 public class UserGenerator implements Generate {
 
-    private final String pathName = "src/main/java/ru/job4j/gc/leak/files/names.txt";
-    private final String pathSurnames = "src/main/java/ru/job4j/gc/leak/files/surnames.txt";
-    private final String pathPatrons = "src/main/java/ru/job4j/gc/leak/files/patr.txt";
-    private final String separator = " ";
-    private final Integer newUsers = 1000;
+    private static final String PATH_NAME = "src/main/java/ru/job4j/gc/leak/files/names.txt";
+    private static final String PATH_SURNAMES = "src/main/java/ru/job4j/gc/leak/files/surnames.txt";
+    private static final String PATH_PATRONS = "src/main/java/ru/job4j/gc/leak/files/patr.txt";
+    private static final String SEPARATOR = " ";
+    private static final int NEW_USERS = 1000;
 
     private List<User> users;
     private final Random random;
@@ -23,13 +23,13 @@ public class UserGenerator implements Generate {
     @Override
     public void generate() {
         users = new ArrayList<>();
-        List<String> names = readAll(pathName);
-        List<String> surnames = readAll(pathSurnames);
-        List<String> patrons = readAll(pathPatrons);
-        for (int i = 0; i < newUsers; i++) {
+        List<String> names = readAll(PATH_NAME);
+        List<String> surnames = readAll(PATH_SURNAMES);
+        List<String> patrons = readAll(PATH_PATRONS);
+        for (int i = 0; i < NEW_USERS; i++) {
             users.add(new User(
                     String.format("%s%s%s%s", surnames.get(random.nextInt(surnames.size())),
-                            separator, names.get(random.nextInt(names.size())), separator,
+                            SEPARATOR, names.get(random.nextInt(names.size())), SEPARATOR,
                             patrons.get(random.nextInt(patrons.size())))));
         }
     }

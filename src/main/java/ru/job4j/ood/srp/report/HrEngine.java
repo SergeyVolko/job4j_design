@@ -1,22 +1,18 @@
 package ru.job4j.ood.srp.report;
 
-import ru.job4j.ood.srp.formatter.DateTimeParser;
 import ru.job4j.ood.srp.model.Employee;
 import ru.job4j.ood.srp.store.Store;
 
-import java.util.Calendar;
+import java.util.List;
 import java.util.function.Predicate;
 
-public class ReportEngine implements Report {
-
+public class HrEngine implements Report {
     private final Store store;
-    private final DateTimeParser<Calendar> dateTimeParser;
     private String header;
     private String delimiter;
 
-    public ReportEngine(Store store, DateTimeParser<Calendar> dateTimeParser, String header, String delimiter) {
+    public HrEngine(Store store, String header, String delimiter) {
         this.store = store;
-        this.dateTimeParser = dateTimeParser;
         this.header = header;
         this.delimiter = delimiter;
     }
@@ -26,10 +22,10 @@ public class ReportEngine implements Report {
         StringBuilder text = new StringBuilder();
         text.append(header)
                 .append(System.lineSeparator());
-        for (Employee employee : store.findBy(filter)) {
+        List<Employee> employees = store.findBy(filter);
+        employees.sort((o1, o2) -> (int) Math.round(o2.getSalary() - o1.getSalary()));
+        for (Employee employee : employees) {
             text.append(employee.getName()).append(delimiter)
-                    .append(dateTimeParser.parse(employee.getHired())).append(delimiter)
-                    .append(dateTimeParser.parse(employee.getFired())).append(delimiter)
                     .append(employee.getSalary())
                     .append(System.lineSeparator());
         }

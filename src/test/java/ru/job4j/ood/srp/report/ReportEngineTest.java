@@ -6,14 +6,7 @@ import ru.job4j.ood.srp.currency.InMemoryCurrencyConverter;
 import ru.job4j.ood.srp.formatter.DateTimeParser;
 import ru.job4j.ood.srp.formatter.ReportDateTimeParser;
 import ru.job4j.ood.srp.model.Employee;
-import ru.job4j.ood.srp.scheme.AccountingScheme;
-import ru.job4j.ood.srp.scheme.CsvScheme;
-import ru.job4j.ood.srp.scheme.HrScheme;
-import ru.job4j.ood.srp.scheme.OldScheme;
-import ru.job4j.ood.srp.store.HrOrder;
 import ru.job4j.ood.srp.store.MemStore;
-import ru.job4j.ood.srp.store.OldOrder;
-
 import java.util.Calendar;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,12 +20,11 @@ public class ReportEngineTest {
         Employee worker = new Employee("Ivan", now, now, 100);
         DateTimeParser<Calendar> parser = new ReportDateTimeParser();
         store.add(worker);
-        OldOrder oldOrder = new OldOrder(store);
         String header = "Name; Hired; Fired; Salary;";
-        OldScheme oldScheme = new OldScheme(parser, header);
-        Report engine = new ReportEngine(oldScheme, oldOrder);
+        String delimiter = " ";
+        Report engine = new ReportEngine(store, parser, header, delimiter);
         StringBuilder expect = new StringBuilder()
-                .append(header)
+                .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
                 .append(worker.getName()).append(" ")
                 .append(parser.parse(worker.getHired())).append(" ")
@@ -47,15 +39,15 @@ public class ReportEngineTest {
         MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
         Employee worker = new Employee("Ivan", now, now, 100);
-        DateTimeParser<Calendar> parser = new ReportDateTimeParser();
         store.add(worker);
+        DateTimeParser<Calendar> parser = new ReportDateTimeParser();
         String header = "Name; Hired; Fired; Salary;";
+        String delimiter = " ";
         InMemoryCurrencyConverter converter = new InMemoryCurrencyConverter();
-        OldOrder oldOrder = new OldOrder(store);
-        AccountingScheme scheme = new AccountingScheme(parser, Currency.USD, header, converter);
-        Report engine = new ReportEngine(scheme, oldOrder);
+        Report engine = new AccountingEngine(store, parser, Currency.USD,
+                converter, header, delimiter);
         StringBuilder expect = new StringBuilder()
-                .append(header)
+                .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
                 .append(worker.getName()).append(" ")
                 .append(parser.parse(worker.getHired())).append(" ")
@@ -70,16 +62,14 @@ public class ReportEngineTest {
         MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
         Employee worker1 = new Employee("Ivan", now, now, 100);
-        Employee worker2 = new Employee("Sidr", now, now, 200);
-        DateTimeParser<Calendar> parser = new ReportDateTimeParser();
+        Employee worker2 = new Employee("Igor", now, now, 200);
         store.add(worker1);
         store.add(worker2);
-        HrOrder hrOrder = new HrOrder(store);
         String header = "Name; Salary;";
-        HrScheme hrScheme = new HrScheme(header);
-        Report engine = new ReportEngine(hrScheme, hrOrder);
+        String delimiter = " ";
+        Report engine = new HrEngine(store, header, delimiter);
         StringBuilder expect = new StringBuilder()
-                .append(header)
+                .append("Name; Salary;")
                 .append(System.lineSeparator())
                 .append(worker2.getName()).append(" ")
                 .append(worker2.getSalary())
@@ -87,7 +77,6 @@ public class ReportEngineTest {
                 .append(worker1.getName()).append(" ")
                 .append(worker1.getSalary())
                 .append(System.lineSeparator());
-        assertThat(engine.generate(em -> true)).isEqualTo(expect.toString());
     }
 
     @Test
@@ -97,12 +86,11 @@ public class ReportEngineTest {
         Employee worker = new Employee("Ivan", now, now, 100);
         DateTimeParser<Calendar> parser = new ReportDateTimeParser();
         store.add(worker);
-        OldOrder oldOrder = new OldOrder(store);
-        String header = "Name;Hired;Fired;Salary";
-        CsvScheme scheme = new CsvScheme(parser, header);
-        Report engine = new ReportEngine(scheme, oldOrder);
+        String header = "name;hired;fired;salary";
+        String delimiter = ";";
+        Report engine = new ReportEngine(store, parser, header, delimiter);
         StringBuilder expect = new StringBuilder()
-                .append(header)
+                .append("name;hired;fired;salary")
                 .append(System.lineSeparator())
                 .append(worker.getName()).append(";")
                 .append(parser.parse(worker.getHired())).append(";")

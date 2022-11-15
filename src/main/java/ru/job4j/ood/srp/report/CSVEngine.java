@@ -7,13 +7,12 @@ import ru.job4j.ood.srp.store.Store;
 import java.util.Calendar;
 import java.util.function.Predicate;
 
-public class ReportEngine implements Report {
-
+public class CSVEngine implements Report {
     private final Store store;
     private final DateTimeParser<Calendar> dateTimeParser;
     private String delimiter;
 
-    public ReportEngine(Store store, DateTimeParser<Calendar> dateTimeParser, String delimiter) {
+    public CSVEngine(Store store, DateTimeParser<Calendar> dateTimeParser, String delimiter) {
         this.store = store;
         this.dateTimeParser = dateTimeParser;
         this.delimiter = delimiter;
@@ -22,7 +21,7 @@ public class ReportEngine implements Report {
     @Override
     public String generate(Predicate<Employee> filter) {
         StringBuilder text = new StringBuilder();
-        text.append("Name; Hired; Fired; Salary;")
+        text.append("name;hired;fired;salary")
                 .append(System.lineSeparator());
         for (Employee employee : store.findBy(filter)) {
             text.append(employee.getName()).append(delimiter)

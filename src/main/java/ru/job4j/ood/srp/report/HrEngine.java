@@ -8,22 +8,20 @@ import java.util.function.Predicate;
 
 public class HrEngine implements Report {
     private final Store store;
-    private String header;
     private String delimiter;
 
-    public HrEngine(Store store, String header, String delimiter) {
+    public HrEngine(Store store, String delimiter) {
         this.store = store;
-        this.header = header;
         this.delimiter = delimiter;
     }
 
     @Override
     public String generate(Predicate<Employee> filter) {
         StringBuilder text = new StringBuilder();
-        text.append(header)
+        text.append("Name; Salary;")
                 .append(System.lineSeparator());
         List<Employee> employees = store.findBy(filter);
-        employees.sort((o1, o2) -> (int) Math.round(o2.getSalary() - o1.getSalary()));
+        employees.sort((o1, o2) -> Double.compare(o2.getSalary(), o1.getSalary()));
         for (Employee employee : employees) {
             text.append(employee.getName()).append(delimiter)
                     .append(employee.getSalary())

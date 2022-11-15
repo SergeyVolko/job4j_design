@@ -15,24 +15,21 @@ public class AccountingEngine implements Report {
     private final DateTimeParser<Calendar> dateTimeParser;
     private final Currency currency;
     private final CurrencyConverter converter;
-    private String header;
     private String delimiter;
 
     public AccountingEngine(Store store, DateTimeParser<Calendar> dateTimeParser,
-                            Currency currency, CurrencyConverter converter,
-                            String header, String delimiter) {
+                            Currency currency, CurrencyConverter converter, String delimiter) {
         this.store = store;
         this.dateTimeParser = dateTimeParser;
         this.currency = currency;
         this.converter = converter;
-        this.header = header;
         this.delimiter = delimiter;
     }
 
     @Override
     public String generate(Predicate<Employee> filter) {
         StringBuilder text = new StringBuilder();
-        text.append(header)
+        text.append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator());
         for (Employee employee : store.findBy(filter)) {
             text.append(employee.getName()).append(" ")

@@ -20,9 +20,8 @@ public class ReportEngineTest {
         Employee worker = new Employee("Ivan", now, now, 100);
         DateTimeParser<Calendar> parser = new ReportDateTimeParser();
         store.add(worker);
-        String header = "Name; Hired; Fired; Salary;";
         String delimiter = " ";
-        Report engine = new ReportEngine(store, parser, header, delimiter);
+        Report engine = new ReportEngine(store, parser, delimiter);
         StringBuilder expect = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
@@ -41,11 +40,10 @@ public class ReportEngineTest {
         Employee worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
         DateTimeParser<Calendar> parser = new ReportDateTimeParser();
-        String header = "Name; Hired; Fired; Salary;";
         String delimiter = " ";
         InMemoryCurrencyConverter converter = new InMemoryCurrencyConverter();
         Report engine = new AccountingEngine(store, parser, Currency.USD,
-                converter, header, delimiter);
+                converter, delimiter);
         StringBuilder expect = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
@@ -65,9 +63,8 @@ public class ReportEngineTest {
         Employee worker2 = new Employee("Igor", now, now, 200);
         store.add(worker1);
         store.add(worker2);
-        String header = "Name; Salary;";
         String delimiter = " ";
-        Report engine = new HrEngine(store, header, delimiter);
+        Report engine = new HrEngine(store, delimiter);
         StringBuilder expect = new StringBuilder()
                 .append("Name; Salary;")
                 .append(System.lineSeparator())
@@ -77,6 +74,7 @@ public class ReportEngineTest {
                 .append(worker1.getName()).append(" ")
                 .append(worker1.getSalary())
                 .append(System.lineSeparator());
+        assertThat(engine.generate(em -> true)).isEqualTo(expect.toString());
     }
 
     @Test
@@ -86,9 +84,8 @@ public class ReportEngineTest {
         Employee worker = new Employee("Ivan", now, now, 100);
         DateTimeParser<Calendar> parser = new ReportDateTimeParser();
         store.add(worker);
-        String header = "name;hired;fired;salary";
         String delimiter = ";";
-        Report engine = new ReportEngine(store, parser, header, delimiter);
+        Report engine = new CSVEngine(store, parser, delimiter);
         StringBuilder expect = new StringBuilder()
                 .append("name;hired;fired;salary")
                 .append(System.lineSeparator())

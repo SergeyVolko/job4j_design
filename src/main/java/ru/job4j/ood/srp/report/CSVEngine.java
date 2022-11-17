@@ -21,7 +21,8 @@ public class CSVEngine implements Report {
     @Override
     public String generate(Predicate<Employee> filter) {
         StringBuilder text = new StringBuilder();
-        text.append("name;hired;fired;salary")
+        text.append("name").append(delimiter).append("hired").append(delimiter)
+                .append("fired").append(delimiter).append("salary")
                 .append(System.lineSeparator());
         for (Employee employee : store.findBy(filter)) {
             text.append(employee.getName()).append(delimiter)

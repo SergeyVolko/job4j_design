@@ -21,7 +21,8 @@ public class ReportEngineTest {
         DateTimeParser<Calendar> parser = new ReportDateTimeParser();
         store.add(worker);
         String delimiter = " ";
-        Report engine = new ReportEngine(store, parser, delimiter);
+        String headDelimiter = ";";
+        Report engine = new ReportEngine(store, parser, delimiter, headDelimiter);
         StringBuilder expect = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
                 .append(System.lineSeparator())
@@ -45,7 +46,7 @@ public class ReportEngineTest {
         Report engine = new AccountingEngine(store, parser, Currency.USD,
                 converter, delimiter);
         StringBuilder expect = new StringBuilder()
-                .append("Name; Hired; Fired; Salary;")
+                .append("Name Hired Fired Salary")
                 .append(System.lineSeparator())
                 .append(worker.getName()).append(" ")
                 .append(parser.parse(worker.getHired())).append(" ")
@@ -66,7 +67,7 @@ public class ReportEngineTest {
         String delimiter = " ";
         Report engine = new HrEngine(store, delimiter);
         StringBuilder expect = new StringBuilder()
-                .append("Name; Salary;")
+                .append("Name Salary")
                 .append(System.lineSeparator())
                 .append(worker2.getName()).append(" ")
                 .append(worker2.getSalary())

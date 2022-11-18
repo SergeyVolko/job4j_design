@@ -29,8 +29,8 @@ public class AccountingEngine implements Report {
     @Override
     public String generate(Predicate<Employee> filter) {
         StringBuilder text = new StringBuilder();
-        text.append("Name;").append(delimiter).append("Hired;").append(delimiter)
-                .append("Fired;").append(delimiter).append("Salary;")
+        text.append("Name").append(delimiter).append("Hired").append(delimiter)
+                .append("Fired").append(delimiter).append("Salary")
                 .append(System.lineSeparator());
         for (Employee employee : store.findBy(filter)) {
             text.append(employee.getName()).append(delimiter)

@@ -12,19 +12,22 @@ public class ReportEngine implements Report {
     private final Store store;
     private final DateTimeParser<Calendar> dateTimeParser;
     private String delimiter;
+    private String headDelimiter;
 
-    public ReportEngine(Store store, DateTimeParser<Calendar> dateTimeParser, String delimiter) {
+    public ReportEngine(Store store, DateTimeParser<Calendar> dateTimeParser, String delimiter, String headDelimiter) {
         this.store = store;
         this.dateTimeParser = dateTimeParser;
         this.delimiter = delimiter;
+        this.headDelimiter = headDelimiter;
     }
 
     @Override
     public String generate(Predicate<Employee> filter) {
         StringBuilder text = new StringBuilder();
-        text.append("Name;").append(delimiter).append("Hired;").append(delimiter)
-                .append("Fired;").append(delimiter).append("Salary;")
-                .append(System.lineSeparator());
+        text.append("Name").append(headDelimiter).append(delimiter)
+                .append("Hired").append(headDelimiter).append(delimiter)
+                .append("Fired").append(headDelimiter).append(delimiter)
+                .append("Salary").append(headDelimiter).append(System.lineSeparator());
         for (Employee employee : store.findBy(filter)) {
             text.append(employee.getName()).append(delimiter)
                     .append(dateTimeParser.parse(employee.getHired())).append(delimiter)

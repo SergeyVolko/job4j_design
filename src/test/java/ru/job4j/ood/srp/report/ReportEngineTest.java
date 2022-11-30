@@ -7,7 +7,12 @@ import ru.job4j.ood.srp.formatter.DateTimeParser;
 import ru.job4j.ood.srp.formatter.ReportDateTimeParser;
 import ru.job4j.ood.srp.model.Employee;
 import ru.job4j.ood.srp.store.MemStore;
+
+import javax.xml.bind.JAXBException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -96,5 +101,66 @@ public class ReportEngineTest {
                 .append(worker.getSalary())
                 .append(System.lineSeparator());
         assertThat(engine.generate(em -> true)).isEqualTo(expect.toString());
+    }
+
+    @Test
+    public void whenXmlGenerated() throws JAXBException {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker1 = new Employee("Ivan", now, now, 100);
+        Employee worker2 = new Employee("Igor", now, now, 200);
+        store.add(worker1);
+        store.add(worker2);
+        XmlEngine engine = new XmlEngine(store);
+        String format = """
+                       <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                       <memStore>
+                           <employees>
+                               <name>Ivan</name>
+                               <hired>%s</hired>
+                               <fired>%s</fired>
+                               <salary>100.0</salary>
+                           </employees>
+                           <employees>
+                               <name>Igor</name>
+                               <hired>%s</hired>
+                               <fired>%s</fired>
+                               <salary>200.0</salary>
+                           </employees>
+                       </memStore>
+                       """;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
+        String expect =
+                String.format(format, dateFormat.format(now.getTime()),
+                        dateFormat.format(now.getTime()),
+                        dateFormat.format(now.getTime()),
+                        dateFormat.format(now.getTime()));
+        assertThat(engine.generate(em -> true)).isEqualTo(expect);
+    }
+
+    @Test
+    public void whenJsonGenerated() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        JsonEngine jsonEngine = new JsonEngine(store);
+        StringBuilder expect = new StringBuilder()
+                .append("{\"employees\":[{\"name\":\"Ivan\",\"hired\":{\"year\":")
+                .append(now.get(Calendar.YEAR)).append(",\"month\":")
+                .append(now.get(Calendar.MONTH))
+                .append(",\"dayOfMonth\":").append(now.get(Calendar.DAY_OF_MONTH))
+                .append(",\"hourOfDay\":").append(now.get(Calendar.HOUR_OF_DAY))
+                .append(",\"minute\":").append(now.get(Calendar.MINUTE))
+                .append(",\"second\":").append(now.get(Calendar.SECOND))
+                .append("},\"fired\":{\"year\":")
+                .append(now.get(Calendar.YEAR)).append(",\"month\":")
+                .append(now.get(Calendar.MONTH))
+                .append(",\"dayOfMonth\":").append(now.get(Calendar.DAY_OF_MONTH))
+                .append(",\"hourOfDay\":").append(now.get(Calendar.HOUR_OF_DAY))
+                .append(",\"minute\":").append(now.get(Calendar.MINUTE))
+                .append(",\"second\":").append(now.get(Calendar.SECOND))
+                .append("},\"salary\":100.0}]}");
+        assertThat(jsonEngine.generate(em -> true)).isEqualTo(expect.toString());
     }
 }

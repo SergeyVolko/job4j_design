@@ -9,6 +9,7 @@ import java.util.Objects;
 
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "employee")
 public class Employee {
     private String name;
     @XmlJavaTypeAdapter(CalendarAdapter.class)
@@ -18,6 +19,10 @@ public class Employee {
     @XmlElement
     private Calendar fired;
     private double salary;
+
+    public Employee() {
+
+    }
 
     public Employee(String name, Calendar hired, Calendar fired, double salary) {
         this.name = name;

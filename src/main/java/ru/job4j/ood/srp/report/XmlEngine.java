@@ -14,19 +14,17 @@ import java.util.function.Predicate;
 public class XmlEngine implements Report {
 
     private Marshaller marshaller;
-    private MemStore store;
+    private Employees store;
 
-    public XmlEngine(MemStore store) throws JAXBException {
+    public XmlEngine(Employees store) throws JAXBException {
         this.store = store;
-        JAXBContext context = JAXBContext.newInstance(MemStore.class, Employee.class);
+        JAXBContext context = JAXBContext.newInstance(Employees.class, Employee.class);
         marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
     }
 
     @Override
     public String generate(Predicate<Employee> filter) {
-        MemStore filterStore = new MemStore();
-        store.findBy(filter).forEach(filterStore::add);
         String xml = "";
         try (StringWriter writer = new StringWriter()) {
             marshaller.marshal(store, writer);

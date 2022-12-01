@@ -2,16 +2,12 @@ package ru.job4j.ood.srp.store;
 
 import ru.job4j.ood.srp.model.Employee;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@XmlRootElement
 public class MemStore implements Store {
-    @XmlElement
     private final List<Employee> employees = new ArrayList<>();
 
     @Override

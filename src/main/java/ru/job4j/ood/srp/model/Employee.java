@@ -9,7 +9,6 @@ import java.util.Objects;
 
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "employee")
 public class Employee {
     private String name;
     @XmlJavaTypeAdapter(CalendarAdapter.class)

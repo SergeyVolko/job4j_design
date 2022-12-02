@@ -11,7 +11,6 @@ import ru.job4j.ood.srp.store.MemStore;
 import javax.xml.bind.JAXBException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -105,13 +104,13 @@ public class ReportEngineTest {
 
     @Test
     public void whenXmlGenerated() throws JAXBException {
+        MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
-        List<Employee> employees = List.of(
-                new Employee("Ivan", now, now, 100),
-                new Employee("Igor", now, now, 200)
-        );
-        Employees store = new Employees(employees);
-        XmlEngine engine = new XmlEngine(store);
+        Employee worker1 = new Employee("Ivan", now, now, 100);
+        Employee worker2 = new Employee("Igor", now, now, 200);
+        store.add(worker1);
+        store.add(worker2);
+        XMLReport engine = new XMLReport(store);
         String format = """
                        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                        <employees>
@@ -140,11 +139,11 @@ public class ReportEngineTest {
 
     @Test
     public void whenJsonGenerated() {
+        MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
-        List<Employee> store = List.of(
-                new Employee("Ivan", now, now, 100)
-        );
-        JsonEngine jsonEngine = new JsonEngine(store);
+        Employee worker = new Employee("Ivan", now, now, 100);
+        store.add(worker);
+        JsonReport jsonReport = new JsonReport(store);
         StringBuilder expect = new StringBuilder()
                 .append("[{\"name\":\"Ivan\",\"hired\":{\"year\":")
                 .append(now.get(Calendar.YEAR)).append(",\"month\":")
@@ -161,6 +160,6 @@ public class ReportEngineTest {
                 .append(",\"minute\":").append(now.get(Calendar.MINUTE))
                 .append(",\"second\":").append(now.get(Calendar.SECOND))
                 .append("},\"salary\":100.0}]");
-        assertThat(jsonEngine.generate(em -> true)).isEqualTo(expect.toString());
+        assertThat(jsonReport.generate(em -> true)).isEqualTo(expect.toString());
     }
 }

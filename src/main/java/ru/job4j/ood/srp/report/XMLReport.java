@@ -6,8 +6,10 @@ import ru.job4j.ood.srp.store.Store;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.List;
 import java.util.function.Predicate;
 
 public class XMLReport implements Report {
@@ -39,5 +41,26 @@ public class XMLReport implements Report {
             e.printStackTrace();
         }
         return xml;
+    }
+
+    @XmlRootElement(name = "employees")
+    private static class Employees {
+        private List<Employee> employees;
+
+        public Employees() {
+
+        }
+
+        public Employees(List<Employee> employees) {
+            this.employees = employees;
+        }
+
+        public List<Employee> getEmployees() {
+            return employees;
+        }
+
+        public void setEmployees(List<Employee> employees) {
+            this.employees = employees;
+        }
     }
 }

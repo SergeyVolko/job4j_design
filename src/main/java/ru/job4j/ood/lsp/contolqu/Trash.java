@@ -7,7 +7,7 @@ public class Trash extends AbstractStore {
     private static final BiPredicate<Food, Double> BI_PREDICATE = (f, p) -> p >= 75;
 
     public Trash(String nameStore) {
-        super(nameStore);
+        super(nameStore, new LocalDateTimeExpirationCalculator());
     }
 
     @Override

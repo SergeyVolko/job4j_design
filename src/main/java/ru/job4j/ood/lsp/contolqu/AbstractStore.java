@@ -8,36 +8,22 @@ import java.util.function.BiPredicate;
 public abstract class AbstractStore implements Store {
     private List<Food> foods = new ArrayList<>();
     private String nameStore;
+    ExpirationCalculator<Date> calculator;
 
-    public AbstractStore(String nameStore) {
+    public AbstractStore(String nameStore, ExpirationCalculator<Date> calculator) {
         this.nameStore = nameStore;
+        this.calculator = calculator;
     }
 
     public abstract boolean add(Food food, Date addDate);
 
-    private double getPercent(Food food, Date addDate) {
-        long addDateMs = addDate.getTime();
-        long create = food.getCreateDate().getTime();
-        long expire = food.getExpiryDate().getTime();
-        if (addDateMs < create) {
-            throw new IllegalArgumentException("Invalid date of addition.");
-        }
-        return (double) (addDateMs - create) / (expire - create) * 100;
-    }
-
     public boolean addFood(Food food, BiPredicate<Food, Double> predicate, Date addDate) {
-        if (addDate.getTime() < food.getCreateDate().getTime()) {
-            throw new IllegalArgumentException("Invalid date of addition.");
-        }
-        return predicate.test(food, getPercent(food, addDate)) && foods.add(food);
+        return predicate.test(food, calculator.calculate(food.getCreateDate(), food.getExpiryDate(), addDate))
+                && foods.add(food);
     }
 
     public List<Food> getFoods() {
-        return foods;
-    }
-
-    public void setFoods(List<Food> foods) {
-        this.foods = foods;
+        return new ArrayList<>(foods);
     }
 
     public String getNameStore() {

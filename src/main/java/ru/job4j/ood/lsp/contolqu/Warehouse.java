@@ -8,7 +8,7 @@ public class Warehouse extends AbstractStore {
     private static final BiPredicate<Food, Double> BI_PREDICATE = (f, p) -> p < 25;
 
     public Warehouse(String nameStore) {
-        super(nameStore);
+        super(nameStore, new LocalDateTimeExpirationCalculator());
     }
 
     @Override

@@ -6,18 +6,18 @@ import java.util.List;
 import java.util.function.BiPredicate;
 
 public abstract class AbstractStore implements Store {
-    private List<Food> foods = new ArrayList<>();
-    private String nameStore;
-    ExpirationCalculator<Date> calculator;
+    private final List<Food> foods = new ArrayList<>();
+    private final String name;
+    protected ExpirationCalculator<Date> calculator;
 
-    public AbstractStore(String nameStore, ExpirationCalculator<Date> calculator) {
-        this.nameStore = nameStore;
+    public AbstractStore(String name, ExpirationCalculator<Date> calculator) {
+        this.name = name;
         this.calculator = calculator;
     }
 
     public abstract boolean add(Food food, Date addDate);
 
-    public boolean addFood(Food food, BiPredicate<Food, Double> predicate, Date addDate) {
+    protected boolean checkExpiration(Food food, BiPredicate<Food, Double> predicate, Date addDate) {
         return predicate.test(food, calculator.calculate(food.getCreateDate(), food.getExpiryDate(), addDate))
                 && foods.add(food);
     }
@@ -27,10 +27,6 @@ public abstract class AbstractStore implements Store {
     }
 
     public String getNameStore() {
-        return nameStore;
-    }
-
-    public void setNameStore(String nameStore) {
-        this.nameStore = nameStore;
+        return name;
     }
 }

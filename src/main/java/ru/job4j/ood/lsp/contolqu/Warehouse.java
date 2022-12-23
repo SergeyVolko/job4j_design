@@ -13,6 +13,6 @@ public class Warehouse extends AbstractStore {
 
     @Override
     public boolean add(Food food, Date addDate) {
-        return addFood(food, BI_PREDICATE, addDate);
+        return checkExpiration(food, BI_PREDICATE, addDate);
     }
 }

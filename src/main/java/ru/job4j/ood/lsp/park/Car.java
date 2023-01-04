@@ -2,27 +2,17 @@ package ru.job4j.ood.lsp.park;
 
 import java.util.Objects;
 
-public class Car {
-    private final String name;
-    private final String regNum;
-    private final int size;
+public abstract class Car {
+    String name;
 
-    public Car(String name, String regNum, int size) {
+    public Car(String name) {
         this.name = name;
-        this.regNum = regNum;
-        this.size = size;
     }
+
+    public abstract int getSize();
 
     public String getName() {
         return name;
-    }
-
-    public String getRegNum() {
-        return regNum;
-    }
-
-    public int getSize() {
-        return size;
     }
 
     @Override
@@ -34,12 +24,11 @@ public class Car {
             return false;
         }
         Car car = (Car) o;
-        return size == car.size && Objects.equals(name, car.name)
-                && Objects.equals(regNum, car.regNum);
+        return Objects.equals(name, car.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, regNum, size);
+        return Objects.hash(name);
     }
 }

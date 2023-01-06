@@ -2,12 +2,12 @@ package ru.job4j.ood.lsp.park;
 
 import java.util.*;
 
-public class ParkingSpace implements StoreCar<Car> {
+public class ParkingSpace implements Parking<Machine> {
 
     private int passSpace;
     private int trackSpace;
-    private final Set<Car> passengers = new HashSet<>();
-    private final Set<Car> tracks = new HashSet<>();
+    private final Set<Machine> passengers = new HashSet<>();
+    private final Set<Machine> tracks = new HashSet<>();
 
     public ParkingSpace(int passSpace, int trackSpace) {
         this.passSpace = passSpace;
@@ -15,18 +15,18 @@ public class ParkingSpace implements StoreCar<Car> {
     }
 
     @Override
-    public boolean park(Car car) {
+    public boolean park(Machine machine) {
         boolean result = true;
-        int carSize = car.getSize();
+        int carSize = machine.getSize();
         if (carSize == 1 && passSpace > 0) {
-            passengers.add(car);
+            passengers.add(machine);
             passSpace -= carSize;
         } else if (carSize > 1) {
             if (trackSpace > 0) {
-                tracks.add(car);
+                tracks.add(machine);
                 trackSpace--;
             } else if (carSize <= passSpace) {
-                passengers.add(car);
+                passengers.add(machine);
                 passSpace -= carSize;
             } else {
                 result = false;
@@ -38,12 +38,12 @@ public class ParkingSpace implements StoreCar<Car> {
     }
 
     @Override
-    public boolean toLeave(Car car) {
+    public boolean leave(Machine machine) {
         boolean result = true;
-        int carSize = car.getSize();
-        if (passengers.remove(car)) {
+        int carSize = machine.getSize();
+        if (passengers.remove(machine)) {
             passSpace += carSize;
-        } else if (tracks.remove(car)) {
+        } else if (tracks.remove(machine)) {
             trackSpace++;
         } else {
             result = false;
@@ -59,11 +59,11 @@ public class ParkingSpace implements StoreCar<Car> {
         return trackSpace;
     }
 
-    public Set<Car> getPassengers() {
+    public Set<Machine> getPassengers() {
         return new HashSet<>(passengers);
     }
 
-    public Set<Car> getTracks() {
+    public Set<Machine> getTracks() {
         return new HashSet<>(tracks);
     }
 }

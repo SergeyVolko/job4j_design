@@ -1,6 +1,6 @@
 package ru.job4j.ood.lsp.park;
 
-public interface StoreCar<T> {
+public interface Parking<T> {
     boolean park(T car);
-    boolean toLeave(T car);
+    boolean leave(T car);
 }

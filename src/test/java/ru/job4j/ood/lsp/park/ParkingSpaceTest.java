@@ -14,9 +14,9 @@ class ParkingSpaceTest {
         Machine machine1 = new Car("Toyota");
         Machine machine2 = new Truck("Kamaz", 2);
         Machine machine3 = new Car("Lada");
-        parking.park(machine1);
-        parking.park(machine2);
-        parking.park(machine3);
+        assertThat(parking.park(machine1)).isTrue();
+        assertThat(parking.park(machine2)).isTrue();
+        assertThat(parking.park(machine3)).isTrue();
         assertThat(parking.getPassSpace()).isEqualTo(0);
     }
 
@@ -26,9 +26,9 @@ class ParkingSpaceTest {
         Machine machine1 = new Car("Toyota");
         Machine machine2 = new Truck("Kamaz", 2);
         Machine machine3 = new Car("Lada");
-        parking.park(machine1);
-        parking.park(machine2);
-        parking.park(machine3);
+        assertThat(parking.park(machine1)).isTrue();
+        assertThat(parking.park(machine2)).isTrue();
+        assertThat(parking.park(machine3)).isTrue();
         assertThat(parking.getTrackSpace()).isEqualTo(0);
     }
 
@@ -38,10 +38,10 @@ class ParkingSpaceTest {
         Machine machine1 = new Car("Toyota");
         Machine machine2 = new Truck("Kamaz", 2);
         Machine machine3 = new Car("Lada");
-        parking.park(machine1);
-        parking.park(machine2);
-        parking.park(machine3);
-        parking.leave(new Truck("Kamaz", 2));
+        assertThat(parking.park(machine1)).isTrue();
+        assertThat(parking.park(machine2)).isTrue();
+        assertThat(parking.park(machine3)).isTrue();
+        assertThat(parking.leave(new Truck("Kamaz", 2))).isTrue();
         assertThat(parking.getTrackSpace()).isEqualTo(1);
     }
 
@@ -51,11 +51,11 @@ class ParkingSpaceTest {
         Machine machine1 = new Car("Toyota");
         Machine machine2 = new Truck("Kamaz", 2);
         Machine machine3 = new Car("Lada");
-        parking.park(machine1);
-        parking.park(machine2);
-        parking.park(machine3);
-        parking.leave(machine1);
-        parking.leave(machine2);
+        assertThat(parking.park(machine1)).isTrue();
+        assertThat(parking.park(machine2)).isTrue();
+        assertThat(parking.park(machine3)).isTrue();
+        assertThat(parking.leave(machine1)).isTrue();
+        assertThat(parking.leave(machine2)).isTrue();
         assertThat(parking.getPassSpace()).isEqualTo(1);
     }
 
@@ -65,9 +65,9 @@ class ParkingSpaceTest {
         Machine machine1 = new Car("Toyota");
         Machine machine2 = new Truck("Kamaz", 2);
         Machine machine3 = new Truck("Maz", 2);
-        parking.park(machine1);
-        parking.park(machine2);
-        parking.park(machine3);
+        assertThat(parking.park(machine1)).isTrue();
+        assertThat(parking.park(machine2)).isTrue();
+        assertThat(parking.park(machine3)).isTrue();
         assertThat(parking.getPassSpace()).isEqualTo(1);
     }
 

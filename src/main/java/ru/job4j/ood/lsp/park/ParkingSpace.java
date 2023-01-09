@@ -16,39 +16,32 @@ public class ParkingSpace implements Parking {
 
     @Override
     public boolean park(Machine machine) {
-        boolean result = true;
         int carSize = machine.getSize();
-        if (carSize == 1 && passSpace > 0) {
+        if (carSize > passSpace && (carSize == Car.SIZE || trackSpace == 0)) {
+            return false;
+        }
+        if (carSize == Car.SIZE || (carSize > Car.SIZE && trackSpace == 0)) {
             passengers.add(machine);
             passSpace -= carSize;
-        } else if (carSize > 1) {
-            if (trackSpace > 0) {
-                tracks.add(machine);
-                trackSpace--;
-            } else if (carSize <= passSpace) {
-                passengers.add(machine);
-                passSpace -= carSize;
-            } else {
-                result = false;
-            }
         } else {
-            result = false;
+            tracks.add(machine);
+            trackSpace--;
         }
-        return result;
+        return true;
     }
 
     @Override
     public boolean leave(Machine machine) {
-        boolean result = true;
         int carSize = machine.getSize();
         if (passengers.remove(machine)) {
             passSpace += carSize;
-        } else if (tracks.remove(machine)) {
-            trackSpace++;
-        } else {
-            result = false;
+            return true;
         }
-        return result;
+        if (tracks.remove(machine)) {
+            trackSpace++;
+            return true;
+        }
+        return false;
     }
 
     public int getPassSpace() {

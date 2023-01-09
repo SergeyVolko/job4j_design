@@ -2,7 +2,7 @@ package ru.job4j.ood.lsp.park;
 
 import java.util.*;
 
-public class ParkingSpace implements Parking<Machine> {
+public class ParkingSpace implements Parking {
 
     private int passSpace;
     private int trackSpace;

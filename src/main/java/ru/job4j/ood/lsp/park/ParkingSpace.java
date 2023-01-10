@@ -17,17 +17,22 @@ public class ParkingSpace implements Parking {
     @Override
     public boolean park(Machine machine) {
         int carSize = machine.getSize();
-        if (carSize > passSpace && (carSize == Car.SIZE || trackSpace == 0)) {
-            return false;
-        }
-        if (carSize == Car.SIZE || (carSize > Car.SIZE && trackSpace == 0)) {
+        if (carSize == Car.SIZE && passSpace > 0) {
             passengers.add(machine);
             passSpace -= carSize;
-        } else {
+            return true;
+        }
+        if (carSize > 1 && trackSpace > 0) {
             tracks.add(machine);
             trackSpace--;
+            return true;
         }
-        return true;
+        if (carSize > 1 && passSpace >= carSize) {
+            passengers.add(machine);
+            passSpace -= carSize;
+            return true;
+        }
+        return false;
     }
 
     @Override

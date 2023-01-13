@@ -22,12 +22,12 @@ public class ParkingSpace implements Parking {
             passSpace -= carSize;
             return true;
         }
-        if (carSize > 1 && trackSpace > 0) {
+        if (carSize > Car.SIZE && trackSpace > 0) {
             tracks.add(machine);
             trackSpace--;
             return true;
         }
-        if (carSize > 1 && passSpace >= carSize) {
+        if (carSize > Car.SIZE && passSpace >= carSize) {
             passengers.add(machine);
             passSpace -= carSize;
             return true;
@@ -55,13 +55,5 @@ public class ParkingSpace implements Parking {
 
     public int getTrackSpace() {
         return trackSpace;
-    }
-
-    public Set<Machine> getPassengers() {
-        return new HashSet<>(passengers);
-    }
-
-    public Set<Machine> getTracks() {
-        return new HashSet<>(tracks);
     }
 }

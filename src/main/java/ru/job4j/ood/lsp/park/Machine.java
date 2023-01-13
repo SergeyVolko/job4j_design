@@ -2,7 +2,7 @@ package ru.job4j.ood.lsp.park;
 
 import java.util.Objects;
 
-public class Machine {
+public abstract class Machine {
 
     private final String name;
     private final int size;

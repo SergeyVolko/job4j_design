@@ -10,13 +10,13 @@ public class TodoApp {
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final String MENU_ACTION =
             """
-            /////////////////////////////
+            ==============================
             1. Add item in root.
             2. Add item in parent.
             3. Call action.
             4. Show menu.
             5. Exit.
-            /////////////////////////////
+            ==============================
             Enter question:""";
 
     private final Menu menu;

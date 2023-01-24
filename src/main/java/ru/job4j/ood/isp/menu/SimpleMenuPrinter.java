@@ -4,12 +4,13 @@ import java.util.Iterator;
 
 public class SimpleMenuPrinter implements MenuPrinter {
 
+    private final String indent = "----";
+
     @Override
     public void print(Menu menu) {
         StringBuilder stringBuilder = new StringBuilder();
         Iterator<Menu.MenuItemInfo> iterator = menu.iterator();
         int count;
-        String indent = "----";
         while (iterator.hasNext()) {
             Menu.MenuItemInfo menuItemInfo = iterator.next();
             count = menuItemInfo.getNumber().split("\\.").length - 1;

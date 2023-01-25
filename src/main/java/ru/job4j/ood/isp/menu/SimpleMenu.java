@@ -11,10 +11,14 @@ public class SimpleMenu implements Menu {
         if (findItem(childName).isPresent()) {
             return false;
         }
-        return Objects.equals(parentName, Menu.ROOT) ? rootElements.add(new SimpleMenuItem(childName, actionDelegate))
-        : findItem(parentName).map(itemInfo ->
-                        itemInfo.menuItem.getChildren().add(new SimpleMenuItem(childName, actionDelegate)))
-                .orElse(false);
+        if (Objects.equals(parentName, Menu.ROOT)) {
+            return rootElements.add(new SimpleMenuItem(childName, actionDelegate));
+        }
+        Optional<ItemInfo> parentItem = findItem(parentName);
+        if (parentItem.isPresent()) {
+            return parentItem.get().menuItem.getChildren().add(new SimpleMenuItem(childName, actionDelegate));
+        }
+        return false;
     }
 
     @Override

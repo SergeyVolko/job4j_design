@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 public class SimpleMenuPrinter implements MenuPrinter {
 
-    private final String indent = "----";
+    public static final String INDENT = "----";
 
     @Override
     public void print(Menu menu) {
@@ -14,7 +14,7 @@ public class SimpleMenuPrinter implements MenuPrinter {
         while (iterator.hasNext()) {
             Menu.MenuItemInfo menuItemInfo = iterator.next();
             count = menuItemInfo.getNumber().split("\\.").length - 1;
-            stringBuilder.append(indent.repeat(count))
+            stringBuilder.append(INDENT.repeat(count))
                     .append(menuItemInfo.getNumber())
                     .append(menuItemInfo.getName())
                     .append(System.lineSeparator());

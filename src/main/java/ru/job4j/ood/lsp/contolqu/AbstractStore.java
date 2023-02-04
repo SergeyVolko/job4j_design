@@ -22,10 +22,15 @@ public abstract class AbstractStore implements Store {
                 && foods.add(food);
     }
 
+    @Override
     public List<Food> getFoods() {
         return new ArrayList<>(foods);
     }
 
+    @Override
+    public void removeFoods() {
+        foods.clear();
+    }
     public String getNameStore() {
         return name;
     }

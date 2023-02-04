@@ -147,4 +147,24 @@ class ControlQualityTest {
         controlQuality.addFoodInStores(food, add, shop);
         assertThat(((AbstractStore) controlQuality.getStore("Shop")).getFoods()).contains(food);
     }
+
+    @Test
+    public void whenAddFoodAndReverse() throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date expire = dateFormat.parse("11-01-2022");
+        Date create = dateFormat.parse("01-01-2022");
+        Date add = dateFormat.parse("06-01-2022");
+        Date newAdd = dateFormat.parse("10-01-2022");
+        Food food = new Food("Apple", expire, create, 100, 5);
+        Map<String, Store> map = Map.of(
+                "Trash", new Trash("Trash"),
+                "Shop", new Shop("Shop"),
+                "Warehouse", new Warehouse("Warehouse")
+        );
+        ControlQuality controlQuality = new ControlQuality(map);
+        controlQuality.addFoodInStores(food, add);
+        assertThat(((AbstractStore) controlQuality.getStore("Shop")).getFoods()).contains(food);
+        controlQuality.resort(newAdd);
+        assertThat(((AbstractStore) controlQuality.getStore("Trash")).getFoods()).contains(food);
+    }
 }

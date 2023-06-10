@@ -83,10 +83,20 @@ public class RegexExample {
          *         }
          */
 
-        Pattern pattern = Pattern.compile("123");
-        String text = "1231 и 1232 и 1233";
+        /**
+         *         Pattern pattern = Pattern.compile("123");
+         *         String text = "1231 и 1232 и 1233";
+         *         Matcher matcher = pattern.matcher(text);
+         *         String rsl = matcher.replaceAll("Job4j");
+         *         System.out.println(rsl);
+         */
+
+        Pattern pattern = Pattern.compile("11");
+        String text = "111111";
         Matcher matcher = pattern.matcher(text);
-        String rsl = matcher.replaceAll("Job4j");
-        System.out.println(rsl);
+        while (matcher.find()) {
+            System.out.println("Найдено совпадение: " + matcher.group());
+        }
+
     }
 }
